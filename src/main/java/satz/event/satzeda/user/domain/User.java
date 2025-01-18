@@ -97,6 +97,10 @@ public class User {
         return reward;
     }
 
+    public ERole getRole() {
+        return role;
+    }
+
     public void updateUserInfo(UpdateUserInfoDto updateUserInfoDto) {
         this.nickname = updateUserInfoDto.nickname();
         this.address = updateUserInfoDto.address();
