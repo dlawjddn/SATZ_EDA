@@ -5,14 +5,14 @@ public enum ERole {
     OWNER("OWNER"),
     RIDER("RIDER")
     ;
-    private final String Role;
+    private final String role;
 
     ERole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public String getRole() {
-        return Role;
+        return this.role;
     }
 
     public static ERole converter(String role) {
