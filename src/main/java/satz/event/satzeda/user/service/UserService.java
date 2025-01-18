@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import satz.event.satzeda.tradehistory.domain.TradeType;
+import satz.event.satzeda.user.domain.ERole;
 import satz.event.satzeda.user.domain.User;
 import satz.event.satzeda.user.dto.request.ChangePointDto;
 import satz.event.satzeda.user.dto.request.CreateUserInfoDto;
@@ -28,6 +29,7 @@ public class UserService {
         return userRepository.save(new User.Builder()
                         .nickname(userInfo.nickname())
                         .address(userInfo.address())
+                        .role(ERole.converter(userInfo.role()))
                 .build()
         );
     }

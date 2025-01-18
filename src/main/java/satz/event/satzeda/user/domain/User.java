@@ -28,6 +28,10 @@ public class User {
     @Column(name = "reward")
     private Integer reward;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private ERole role;
+
     // JPA용 protected 생성자
     protected User() {}
 
@@ -37,6 +41,7 @@ public class User {
         this.address = builder.address;
         this.point = builder.point;
         this.reward = builder.reward;
+        this.role = builder.role;
     }
 
     public static class Builder {
@@ -44,6 +49,7 @@ public class User {
         private String address;
         private Integer point = 0;
         private Integer reward = 0;
+        private ERole role = ERole.USER;
 
         public Builder nickname(String nickname) {
             this.nickname = nickname;
@@ -62,6 +68,11 @@ public class User {
 
         public Builder reward(Integer reward) {
             this.reward = reward;
+            return this;
+        }
+
+        public Builder role(ERole role) {
+            this.role = role;
             return this;
         }
 
