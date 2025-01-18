@@ -12,8 +12,6 @@ import satz.event.satzeda.user.dto.request.UpdateUserInfoDto;
 import satz.event.satzeda.user.event.event.DepositEvent;
 import satz.event.satzeda.user.repository.UserRepository;
 
-import java.util.UUID;
-
 @Service
 public class UserService {
 
@@ -34,7 +32,7 @@ public class UserService {
         );
     }
 
-    public User getUserInfo(UUID userId) {
+    public User getUserInfo(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 회원 아이디임 ㅅㄱ~"));
     }

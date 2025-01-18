@@ -2,10 +2,7 @@ package satz.event.satzeda.user.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
 import satz.event.satzeda.user.dto.request.UpdateUserInfoDto;
-
-import java.util.UUID;
 
 @Entity
 @DynamicUpdate
@@ -13,9 +10,8 @@ import java.util.UUID;
 public class User {
     @Id
     @Column(name = "user_id")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "nickname")
     private String nickname;
 
@@ -81,7 +77,7 @@ public class User {
         }
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

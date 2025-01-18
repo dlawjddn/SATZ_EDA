@@ -11,9 +11,9 @@ import java.util.UUID;
 @Table(name = "trade_histories")
 public class TradeHistory {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @Column(name = "trade_history_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -62,7 +62,7 @@ public class TradeHistory {
         }
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping
-    public User getUserInfo(@RequestParam(name = "id") UUID userId) {
+    public User getUserInfo(@RequestParam(name = "id") Long userId) {
         return userService.getUserInfo(userId);
     }
 
