@@ -3,8 +3,11 @@ package satz.event.satzeda.store.domain;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.transaction.annotation.Transactional;
+import satz.event.satzeda.food.domain.Food;
 import satz.event.satzeda.store.dto.request.UpdateStoreInfoDto;
 import satz.event.satzeda.user.domain.User;
+
+import java.util.List;
 
 @Entity
 @DynamicUpdate
@@ -36,6 +39,9 @@ public class Store {
 
     @Column(name = "active", nullable = false)
     private Boolean isActive;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Food> foods;
 
     protected Store() {}
 
@@ -124,9 +130,9 @@ public class Store {
     public Boolean getIsActive() {
         return isActive;
     }
-    @Transactional
-    public void updateActiveState() {
-        this.isActive = !this.isActive;
+
+    public List<Food> getFoods() {
+        return foods;
     }
 
     @Transactional

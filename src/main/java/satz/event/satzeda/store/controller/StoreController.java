@@ -32,8 +32,13 @@ public class StoreController {
         storeService.updateStoreInfo(storeInfoDto);
     }
 
-    @PatchMapping("/active")
-    public void updateStoreActive(@RequestParam(name = "id") Long storeId) {
-        storeService.updateStoreActive(storeId);
+    @PatchMapping("/open")
+    public void updateStoreOpen(@RequestParam(name = "id") Long storeId) {
+        storeService.updateStoreOpen(storeId);
+    }
+
+    @PatchMapping("/close")
+    public void updateStoreClose(@RequestParam(name = "id") Long storeId) {
+        storeService.updateStoreClosed(storeId);
     }
 }

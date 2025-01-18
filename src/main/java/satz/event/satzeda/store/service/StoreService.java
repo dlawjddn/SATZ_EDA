@@ -1,11 +1,13 @@
 package satz.event.satzeda.store.service;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import satz.event.satzeda.store.domain.EStoreType;
 import satz.event.satzeda.store.domain.Store;
 import satz.event.satzeda.store.dto.request.CreateStoreDto;
 import satz.event.satzeda.store.dto.request.UpdateStoreInfoDto;
+import satz.event.satzeda.store.event.event.RefreshFoodStateEvent;
 import satz.event.satzeda.store.repository.StoreRepository;
 import satz.event.satzeda.user.domain.ERole;
 import satz.event.satzeda.user.domain.User;
@@ -17,10 +19,12 @@ import java.util.List;
 public class StoreService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public StoreService(UserRepository userRepository, StoreRepository storeRepository) {
+    public StoreService(UserRepository userRepository, StoreRepository storeRepository, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.storeRepository = storeRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -54,10 +58,27 @@ public class StoreService {
         store.updateStoreInfo(updateStoreInfo);
     }
 
-    public void updateStoreActive(Long storeId) {
+    @Transactional
+    public void updateStoreOpen(Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("가게 아이디 불일치"));
 
-        store.updateActiveState();
+        storeRepository.updateStoreOpen(store.getId());
+
+        List<Long> foodIds = store.getFoods().stream()
+                .map(food -> food.getId())
+                .toList();
+        // 음식 매진 상태 리프레시
+        eventPublisher.publishEvent(new RefreshFoodStateEvent(foodIds));
     }
+
+    @Transactional
+    public void updateStoreClosed(Long storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("가게 아이디 불일치"));
+
+        storeRepository.updateStoreClose(store.getId());
+    }
+
+
 }
